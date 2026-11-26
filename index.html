@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#7c3aed">
+<meta name="description" content="Math Asik SD: latihan Matematika SD kelas 4, 5, 6 per topik dengan pembahasan dan analisis skor — persiapan UAS/PAS akhir semester.">
+<title>Math Asik SD — Latihan Matematika SD</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --ungu:#7c3aed; --ungu-d:#5b21b6; --ungu-soft:#ede9fe; --latar:#f5f3ff;
+    --ink:#1f1b33; --muted:#6b6486; --card:#ffffff; --ok:#15803d; --ok-bg:#dcfce7;
+    --salah:#b91c1c; --salah-bg:#fee2e2; --kuning:#b45309; --kuning-bg:#fef3c7;
+    --garis:#e3def5; --radius:16px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--latar);color:var(--ink);
+       padding:0 14px calc(28px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto;line-height:1.5}
+  header.appbar{position:sticky;top:0;z-index:20;background:var(--latar);padding:12px 0 8px;
+       display:flex;align-items:center;gap:10px}
+  .logo{width:42px;height:42px;border-radius:12px;background:var(--ungu);color:#fff;display:flex;align-items:center;
+       justify-content:center;font-weight:800;font-size:15px;flex:none}
+  header.appbar h1{font-size:19px;margin:0;line-height:1.2}
+  header.appbar p{margin:1px 0 0;font-size:12px;color:var(--muted)}
+  .badge{margin-left:auto;flex:none;font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;
+       background:var(--kuning-bg);color:var(--kuning);border:1px solid #fcd34d}
+  .badge.penuh{background:var(--ok-bg);color:var(--ok);border-color:#86efac}
+  .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-top:14px;
+       box-shadow:0 4px 14px rgba(124,58,237,.08);border:1px solid var(--garis)}
+  .card h2{margin:0 0 6px;font-size:17px}
+  .note{font-size:13px;color:var(--muted);margin:6px 0}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--ungu);color:#fff;
+       font-weight:700;border:none;border-radius:12px;padding:12px 18px;font-size:15px;cursor:pointer;
+       min-height:48px;text-decoration:none}
+  .btn:active{transform:scale(.98)}
+  .btn.ghost{background:#fff;color:var(--ungu-d);border:2px solid var(--ungu-soft)}
+  .btn.lebar{width:100%}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .tumpuk{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .kelas-row{display:flex;gap:8px;margin-top:10px}
+  .kelas-btn{flex:1;padding:12px 6px;border-radius:12px;border:2px solid var(--ungu-soft);background:#fff;
+       font-weight:800;font-size:15px;color:var(--ungu-d);cursor:pointer;min-height:48px}
+  .kelas-btn.aktif{background:var(--ungu);color:#fff;border-color:var(--ungu)}
+  .topik{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card);
+       border:1px solid var(--garis);border-radius:14px;padding:13px 14px;cursor:pointer;margin-top:10px;
+       box-shadow:0 3px 10px rgba(124,58,237,.06);font:inherit;color:inherit}
+  .topik .info{flex:1;min-width:0}
+  .topik .nama{font-weight:700;font-size:15px}
+  .topik .meta{font-size:12px;color:var(--muted)}
+  .chip{flex:none;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--ok-bg);color:var(--ok)}
+  .chip.kunci{background:var(--kuning-bg);color:var(--kuning)}
+  .chip.skor{background:var(--ungu-soft);color:var(--ungu-d)}
+  .bar{height:9px;border-radius:99px;background:var(--ungu-soft);overflow:hidden;margin-top:7px}
+  .bar>i{display:block;height:100%;background:var(--ungu);border-radius:99px}
+  .bar>i.rendah{background:#f59e0b}.bar>i.bagus{background:var(--ok)}
+  .harga{font-size:22px;font-weight:800;color:var(--ungu-d)}
+  .coret{text-decoration:line-through;color:var(--muted);font-weight:600}
+  input.kode{width:100%;padding:13px;border:2px solid var(--ungu-soft);border-radius:12px;font-size:16px;
+       text-transform:uppercase;letter-spacing:1px;text-align:center}
+  .soal-teks{font-size:17px;font-weight:600;margin:8px 0 14px}
+  .pilihan{display:flex;flex-direction:column;gap:9px}
+  .pil{display:flex;gap:10px;align-items:center;text-align:left;background:#fff;border:2px solid var(--garis);
+       border-radius:12px;padding:13px 14px;font-size:16px;cursor:pointer;min-height:52px;font:inherit;color:inherit}
+  .pil .huruf{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ungu-soft);color:var(--ungu-d);
+       font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+  .pil.benar{border-color:var(--ok);background:var(--ok-bg)}
+  .pil.salah{border-color:var(--salah);background:var(--salah-bg)}
+  .pil:disabled{cursor:default}
+  .bahas{margin-top:12px;padding:12px;border-radius:12px;font-size:14px}
+  .bahas.ok{background:var(--ok-bg)} .bahas.no{background:var(--salah-bg)}
+  .progres{height:8px;border-radius:99px;background:var(--ungu-soft);overflow:hidden;margin:6px 0 2px}
+  .progres>i{display:block;height:100%;background:var(--ungu)}
+  .skor-besar{font-size:44px;font-weight:800;color:var(--ungu-d);text-align:center;margin:6px 0}
+  .analisis-baris{margin-top:10px}
+  .analisis-baris .atas{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+  .tersembunyi{display:none!important}
+  footer{margin-top:22px;text-align:center;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="logo">π</div>
+  <div>
+    <h1>Math Asik SD</h1>
+    <p>Latihan Matematika Kelas 4 · 5 · 6</p>
+  </div>
+  <span class="badge" id="badgeAkses">Versi Gratis</span>
+</header>
+
+<main id="layarBeranda">
+  <section class="card">
+    <h2>Siap UAS/PAS akhir semester? 🎯</h2>
+    <p class="note">Musim ujian akhir semester ganjil sudah dekat. Latihan per topik dan Tryout Mini di bawah ini membantu anak mengulang materi kelas 4, 5, dan 6 — setiap soal dilengkapi pembahasan, dan skor per topik dianalisis otomatis supaya tahu bagian mana yang perlu diulang.</p>
+    <div class="kelas-row" role="tablist" aria-label="Pilih kelas">
+      <button class="kelas-btn" data-kelas="4">Kelas 4</button>
+      <button class="kelas-btn" data-kelas="5">Kelas 5</button>
+      <button class="kelas-btn" data-kelas="6">Kelas 6</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>⚡ Tryout Mini (Gratis)</h2>
+    <p class="note">6 soal campuran semua topik kelas terpilih — pemanasan cepat sebelum ulangan harian atau UAS/PAS.</p>
+    <button class="btn lebar" id="btnTryoutMini">Mulai Tryout Mini</button>
+    <div class="tumpuk">
+      <button class="btn ghost lebar" id="btnTryoutUas">Tryout UAS — 12 Soal <span id="labelKunciUas">🔒</span></button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📚 Latihan per Topik</h2>
+    <p class="note" id="catatanTopik">Topik pertama gratis. Topik lain terbuka dengan kode akses.</p>
+    <div id="daftarTopik"></div>
+  </section>
+
+  <section class="card" id="kartuAnalisis">
+    <h2>📊 Analisis Skor per Topik</h2>
+    <div id="isiAnalisis"><p class="note">Belum ada latihan. Selesaikan satu topik atau Tryout Mini, lalu analisisnya muncul di sini.</p></div>
+  </section>
+
+  <section class="card" id="kartuBeli">
+    <h2>🔓 Buka Semua Topik</h2>
+    <p class="note">Semua topik kelas 4, 5, 6 + Tryout UAS, sekali bayar untuk edisi ini.</p>
+    <p><span class="harga">Rp29.000</span> <span class="coret">Rp49.000</span></p>
+    <div class="tumpuk">
+      <a class="btn lebar" href="https://linktr.ee/awwanmahda" target="_blank" rel="noopener">Beli Kode Akses</a>
+      <input class="kode" id="inputKode" placeholder="MASUKKAN KODE AKSES" autocomplete="off" autocapitalize="characters">
+      <button class="btn ghost lebar" id="btnKode">Aktifkan Kode</button>
+      <p class="note" id="pesanKode" role="status"></p>
+    </div>
+  </section>
+</main>
+
+<main id="layarKuis" class="tersembunyi">
+  <section class="card">
+    <p class="note" id="kuisMeta"></p>
+    <div class="progres"><i id="kuisProgres" style="width:0%"></i></div>
+    <p class="soal-teks" id="kuisSoal"></p>
+    <div class="pilihan" id="kuisPilihan"></div>
+    <div id="kuisBahas"></div>
+    <div class="tumpuk">
+      <button class="btn lebar tersembunyi" id="btnLanjut">Soal Berikutnya</button>
+      <button class="btn ghost lebar" id="btnKeluar">Keluar</button>
+    </div>
+  </section>
+</main>
+
+<main id="layarHasil" class="tersembunyi">
+  <section class="card">
+    <h2 id="hasilJudul">Selesai!</h2>
+    <div class="skor-besar" id="hasilSkor"></div>
+    <p class="note" id="hasilPesan" style="text-align:center"></p>
+    <div id="hasilAnalisis"></div>
+    <div class="tumpuk">
+      <button class="btn lebar" id="btnKembali">Kembali ke Beranda</button>
+    </div>
+  </section>
+</main>
+
+<footer>Math Asik SD · Toko Aplikasi Edukasi AwwanMahda<br>Progres tersimpan di HP ini, tanpa akun.</footer>
+
+<script>
+"use strict";
+const SOAL = [{"id": "S001", "kelas": 4, "topik": "Bilangan Cacah", "soal": "Nilai angka 9 pada bilangan 8.977 adalah …", "pilihan": ["1.000", "800", "900", "909"], "jawaban": 2, "pembahasan": "Angka 9 menempati tempat ratusan, jadi nilainya 9 × 100 = 900."}, {"id": "S002", "kelas": 4, "topik": "Bilangan Cacah", "soal": "Nilai angka 5 pada bilangan 5.973 adalah …", "pilihan": ["6.000", "5.000", "5.005", "4.000"], "jawaban": 1, "pembahasan": "Angka 5 menempati tempat ribuan, jadi nilainya 5 × 1.000 = 5.000."}, {"id": "S003", "kelas": 4, "topik": "Bilangan Cacah", "soal": "Nilai angka 2 pada bilangan 6.026 adalah …", "pilihan": ["22", "10", "30", "20"], "jawaban": 3, "pembahasan": "Angka 2 menempati tempat puluhan, jadi nilainya 2 × 10 = 20."}, {"id": "S004", "kelas": 4, "topik": "Bilangan Cacah", "soal": "Bilangan 402 dibulatkan ke ratusan terdekat menjadi …", "pilihan": ["400", "450", "300", "500"], "jawaban": 0, "pembahasan": "Angka puluhannya menentukan: 402 lebih dekat ke 400."}, {"id": "S005", "kelas": 4, "topik": "Bilangan Cacah", "soal": "Pola bilangan 30, 38, 46, 54, … Bilangan berikutnya adalah …", "pilihan": ["63", "62", "70", "54"], "jawaban": 1, "pembahasan": "Selisihnya selalu 8, jadi berikutnya 54 + 8 = 62."}, {"id": "S006", "kelas": 4, "topik": "Perkalian & Pembagian", "soal": "Hasil dari 43 × 9 adalah …", "pilihan": ["430", "396", "344", "387"], "jawaban": 3, "pembahasan": "43 × 9 = 387."}, {"id": "S007", "kelas": 4, "topik": "Perkalian & Pembagian", "soal": "Hasil dari 18 × 5 adalah …", "pilihan": ["90", "72", "108", "95"], "jawaban": 0, "pembahasan": "18 × 5 = 90."}, {"id": "S008", "kelas": 4, "topik": "Perkalian & Pembagian", "soal": "Hasil dari 70 : 5 adalah …", "pilihan": ["13", "14", "15", "16"], "jawaban": 1, "pembahasan": "70 : 5 = 14 karena 5 × 14 = 70."}, {"id": "S009", "kelas": 4, "topik": "Perkalian & Pembagian", "soal": "Hasil dari 164 : 4 adalah …", "pilihan": ["42", "43", "41", "40"], "jawaban": 2, "pembahasan": "164 : 4 = 41 karena 4 × 41 = 164."}, {"id": "S010", "kelas": 4, "topik": "Perkalian & Pembagian", "soal": "Sebuah rak berisi 4 kotak. Setiap kotak berisi 5 pak, dan setiap pak berisi 6 pensil. Jumlah pensil seluruhnya …", "pilihan": ["120", "130", "140", "100"], "jawaban": 0, "pembahasan": "4 × 5 × 6 = 120 pensil."}, {"id": "S011", "kelas": 4, "topik": "Pecahan", "soal": "Pecahan yang senilai dengan 5/6 adalah …/30. Bilangan yang tepat untuk mengisi titik-titik adalah …", "pilihan": ["24", "26", "25", "30"], "jawaban": 2, "pembahasan": "Penyebut dikali 5, pembilang juga dikali 5: 5 × 5 = 25."}, {"id": "S012", "kelas": 4, "topik": "Pecahan", "soal": "Pecahan yang senilai dengan 1/8 adalah …/40. Bilangan yang tepat untuk mengisi titik-titik adalah …", "pilihan": ["10", "5", "4", "6"], "jawaban": 1, "pembahasan": "Penyebut dikali 5, pembilang juga dikali 5: 1 × 5 = 5."}, {"id": "S013", "kelas": 4, "topik": "Pecahan", "soal": "Hasil dari 2/9 + 1/9 adalah …", "pilihan": ["1/3", "4/9", "1/9", "3/10"], "jawaban": 0, "pembahasan": "Penyebut sama, pembilang dijumlahkan: (2 + 1)/9 = 1/3."}, {"id": "S014", "kelas": 4, "topik": "Pecahan", "soal": "Di antara pecahan 8/10 dan 2/10, yang lebih besar adalah …", "pilihan": ["8/10", "2/10", "10/8", "8/11"], "jawaban": 0, "pembahasan": "Penyebutnya sama, pembilang yang lebih besar nilainya lebih besar: 8/10."}, {"id": "S015", "kelas": 4, "topik": "Pecahan", "soal": "Bentuk paling sederhana dari 8/16 adalah …", "pilihan": ["2", "4/9", "5/8", "1/2"], "jawaban": 3, "pembahasan": "Pembilang dan penyebut dibagi 2: 8/16 = 1/2."}, {"id": "S016", "kelas": 4, "topik": "Keliling & Luas Bangun Datar", "soal": "Keliling persegi dengan sisi 13 cm adalah … cm", "pilihan": ["52", "39", "56", "65"], "jawaban": 0, "pembahasan": "Keliling persegi = 4 × sisi = 4 × 13 = 52 cm."}, {"id": "S017", "kelas": 4, "topik": "Keliling & Luas Bangun Datar", "soal": "Luas persegi panjang dengan panjang 14 cm dan lebar 13 cm adalah … cm²", "pilihan": ["168", "195", "182", "196"], "jawaban": 2, "pembahasan": "Luas = panjang × lebar = 14 × 13 = 182 cm²."}, {"id": "S018", "kelas": 4, "topik": "Keliling & Luas Bangun Datar", "soal": "Keliling persegi panjang dengan panjang 9 cm dan lebar 12 cm adalah … cm", "pilihan": ["42", "21", "44", "63"], "jawaban": 0, "pembahasan": "Keliling = 2 × (panjang + lebar) = 2 × (9 + 12) = 42 cm."}, {"id": "S019", "kelas": 4, "topik": "Keliling & Luas Bangun Datar", "soal": "Luas persegi dengan sisi 6 cm adalah … cm²", "pilihan": ["30", "42", "36", "46"], "jawaban": 2, "pembahasan": "Luas persegi = sisi × sisi = 6 × 6 = 36 cm²."}, {"id": "S020", "kelas": 4, "topik": "Keliling & Luas Bangun Datar", "soal": "Luas segitiga dengan alas 10 cm dan tinggi 10 cm adalah … cm²", "pilihan": ["40", "50", "60", "501"], "jawaban": 1, "pembahasan": "Luas segitiga = ½ × alas × tinggi = ½ × 10 × 10 = 50 cm²."}, {"id": "S021", "kelas": 4, "topik": "Pengukuran", "soal": "2 m = … cm", "pilihan": ["300", "200", "100", "210"], "jawaban": 1, "pembahasan": "1 m = 100 cm, jadi 2 m = 2 × 100 = 200 cm."}, {"id": "S022", "kelas": 4, "topik": "Pengukuran", "soal": "19 kg = … gram", "pilihan": ["19.100", "20.000", "19.000", "18.000"], "jawaban": 2, "pembahasan": "1 kg = 1.000 gram, jadi 19 kg = 19.000 gram."}, {"id": "S023", "kelas": 4, "topik": "Pengukuran", "soal": "4 jam = … menit", "pilihan": ["300", "180", "240", "250"], "jawaban": 2, "pembahasan": "1 jam = 60 menit, jadi 4 jam = 4 × 60 = 240 menit."}, {"id": "S024", "kelas": 4, "topik": "Pengukuran", "soal": "Sebuah pita panjangnya 172 cm disambung dengan pita lain 47 cm. Panjang pita sekarang … cm", "pilihan": ["229", "219", "220", "209"], "jawaban": 1, "pembahasan": "172 + 47 = 219 cm."}, {"id": "S025", "kelas": 4, "topik": "Pengukuran", "soal": "Jarak rumah Dina ke sekolah 4 km. Jarak itu sama dengan … m", "pilihan": ["4.100", "5.000", "3.000", "4.000"], "jawaban": 3, "pembahasan": "1 km = 1.000 m, jadi 4 km = 4.000 m."}, {"id": "S026", "kelas": 4, "topik": "Diagram & Data", "soal": "Data buah kesukaan siswa: Apel 14, Mangga 3, Jeruk 11, Pisang 3. Buah yang paling banyak disukai adalah …", "pilihan": ["Jeruk", "Apel", "Pisang", "Mangga"], "jawaban": 1, "pembahasan": "Jumlah terbesar adalah Apel (14 siswa)."}, {"id": "S027", "kelas": 4, "topik": "Diagram & Data", "soal": "Data buah kesukaan siswa: Apel 13, Mangga 13, Jeruk 15, Pisang 11. Selisih siswa yang menyukai Mangga dan Jeruk adalah …", "pilihan": ["1", "4", "2", "3"], "jawaban": 2, "pembahasan": "|13 − 15| = 2."}, {"id": "S028", "kelas": 4, "topik": "Diagram & Data", "soal": "Data buah kesukaan siswa: Apel 10, Mangga 7, Jeruk 8, Pisang 7. Jumlah seluruh siswa adalah …", "pilihan": ["31", "33", "34", "32"], "jawaban": 3, "pembahasan": "10 + 7 + 8 + 7 = 32."}, {"id": "S029", "kelas": 4, "topik": "Diagram & Data", "soal": "Buku yang dipinjam di perpustakaan: Senin 10, Selasa 10, Rabu 6, Kamis 2. Hari dengan pinjaman paling sedikit adalah …", "pilihan": ["Kamis", "Selasa", "Senin", "Rabu"], "jawaban": 0, "pembahasan": "Jumlah terkecil adalah Kamis (2 buku)."}, {"id": "S030", "kelas": 4, "topik": "Diagram & Data", "soal": "Data buah kesukaan siswa: Apel 5, Mangga 9, Jeruk 14, Pisang 10. Jumlah siswa yang menyukai Apel dan Mangga adalah …", "pilihan": ["15", "13", "14", "16"], "jawaban": 2, "pembahasan": "5 + 9 = 14."}, {"id": "S031", "kelas": 5, "topik": "Operasi Pecahan", "soal": "Hasil dari 1/3 + 1/4 adalah …", "pilihan": ["2/7", "7/12", "2/3", "7/13"], "jawaban": 1, "pembahasan": "Samakan penyebut menjadi 12: 4/12 + 3/12 = 7/12."}, {"id": "S032", "kelas": 5, "topik": "Operasi Pecahan", "soal": "Hasil dari 7/4 − 1/4 adalah …", "pilihan": ["2", "3/2", "6/5", "7/4"], "jawaban": 1, "pembahasan": "Penyebut sama: (7 − 1)/4 = 3/2."}, {"id": "S033", "kelas": 5, "topik": "Operasi Pecahan", "soal": "Hasil dari 2/4 × 1/5 adalah …", "pilihan": ["1/3", "1/10", "3/20", "2/21"], "jawaban": 1, "pembahasan": "Pembilang × pembilang, penyebut × penyebut: 2/20 = 1/10."}, {"id": "S034", "kelas": 5, "topik": "Operasi Pecahan", "soal": "Hasil dari 1/3 : 1/4 adalah …", "pilihan": ["1/12", "4/3", "1", "5/3"], "jawaban": 1, "pembahasan": "Pembagian pecahan = kali kebalikannya: 1/3 × 4/1 = 4/3."}, {"id": "S035", "kelas": 5, "topik": "Operasi Pecahan", "soal": "Hasil dari 6 × 3/2 adalah …", "pilihan": ["9", "6", "9/2", "19/2"], "jawaban": 0, "pembahasan": "6 × 3/2 = 18/2 = 9."}, {"id": "S036", "kelas": 5, "topik": "Desimal", "soal": "Hasil dari 4,7 + 3,5 adalah …", "pilihan": ["9,2", "8,2", "8,3", "7,2"], "jawaban": 1, "pembahasan": "Sejajarkan koma desimal: 4,7 + 3,5 = 8,2."}, {"id": "S037", "kelas": 5, "topik": "Desimal", "soal": "Hasil dari 8,8 − 2,6 adalah …", "pilihan": ["6,3", "6,2", "7,2", "5,2"], "jawaban": 1, "pembahasan": "Sejajarkan koma desimal: 8,8 − 2,6 = 6,2."}, {"id": "S038", "kelas": 5, "topik": "Desimal", "soal": "Hasil dari 5 × 7,8 adalah …", "pilihan": ["39", "40", "44", "34"], "jawaban": 0, "pembahasan": "5 × 7,8 = 39."}, {"id": "S039", "kelas": 5, "topik": "Desimal", "soal": "Bilangan desimal terbesar di antara 3,78, 6,65, 5,32, 8,4 adalah …", "pilihan": ["5,32", "6,65", "8,4", "3,78"], "jawaban": 2, "pembahasan": "Bandingkan angka di depan koma lalu persepuluhannya: yang terbesar 8,4."}, {"id": "S040", "kelas": 5, "topik": "Desimal", "soal": "Bilangan 4,6 dibulatkan ke satuan terdekat menjadi …", "pilihan": ["5", "7", "6", "4"], "jawaban": 0, "pembahasan": "Angka persepuluhannya menentukan: 4,6 dibulatkan menjadi 5."}, {"id": "S041", "kelas": 5, "topik": "KPK & FPB", "soal": "KPK dari 4 dan 6 adalah …", "pilihan": ["8", "12", "18", "16"], "jawaban": 1, "pembahasan": "Kelipatan persekutuan terkecil dari 4 dan 6 adalah 12."}, {"id": "S042", "kelas": 5, "topik": "KPK & FPB", "soal": "KPK dari 6 dan 8 adalah …", "pilihan": ["18", "30", "32", "24"], "jawaban": 3, "pembahasan": "Kelipatan persekutuan terkecil dari 6 dan 8 adalah 24."}, {"id": "S043", "kelas": 5, "topik": "KPK & FPB", "soal": "KPK dari 3 dan 5 adalah …", "pilihan": ["18", "20", "12", "15"], "jawaban": 3, "pembahasan": "Kelipatan persekutuan terkecil dari 3 dan 5 adalah 15."}, {"id": "S044", "kelas": 5, "topik": "KPK & FPB", "soal": "FPB dari 8 dan 12 adalah …", "pilihan": ["5", "4", "3", "6"], "jawaban": 1, "pembahasan": "Faktor persekutuan terbesar dari 8 dan 12 adalah 4."}, {"id": "S045", "kelas": 5, "topik": "KPK & FPB", "soal": "FPB dari 5 dan 10 adalah …", "pilihan": ["4", "7", "6", "5"], "jawaban": 3, "pembahasan": "Faktor persekutuan terbesar dari 5 dan 10 adalah 5."}, {"id": "S046", "kelas": 5, "topik": "Volume Bangun Ruang", "soal": "Volume kubus dengan rusuk 7 cm adalah … cm³", "pilihan": ["343", "294", "392", "350"], "jawaban": 0, "pembahasan": "Volume kubus = rusuk³ = 7³ = 343 cm³."}, {"id": "S047", "kelas": 5, "topik": "Volume Bangun Ruang", "soal": "Volume kubus dengan rusuk 5 cm adalah … cm³", "pilihan": ["130", "125", "100", "150"], "jawaban": 1, "pembahasan": "Volume kubus = rusuk³ = 5³ = 125 cm³."}, {"id": "S048", "kelas": 5, "topik": "Volume Bangun Ruang", "soal": "Volume balok dengan panjang 5 cm, lebar 5 cm, dan tinggi 9 cm adalah … cm³", "pilihan": ["200", "234", "225", "250"], "jawaban": 2, "pembahasan": "Volume balok = p × l × t = 5 × 5 × 9 = 225 cm³."}, {"id": "S049", "kelas": 5, "topik": "Volume Bangun Ruang", "soal": "Volume balok dengan panjang 5 cm, lebar 8 cm, dan tinggi 9 cm adalah … cm³", "pilihan": ["360", "369", "320", "400"], "jawaban": 0, "pembahasan": "Volume balok = p × l × t = 5 × 8 × 9 = 360 cm³."}, {"id": "S050", "kelas": 5, "topik": "Volume Bangun Ruang", "soal": "Luas permukaan kubus dengan rusuk 10 cm adalah … cm²", "pilihan": ["600", "700", "500", "606"], "jawaban": 0, "pembahasan": "Luas permukaan kubus = 6 × rusuk² = 6 × 100 = 600 cm²."}, {"id": "S051", "kelas": 5, "topik": "Skala & Perbandingan", "soal": "Jarak dua kota pada peta 9 cm dengan skala 1:100.000. Jarak sebenarnya adalah … km", "pilihan": ["11", "9", "10", "8"], "jawaban": 1, "pembahasan": "Jarak sebenarnya = 9 × 100.000 cm = 900.000 cm = 9 km."}, {"id": "S052", "kelas": 5, "topik": "Skala & Perbandingan", "soal": "Jarak dua kota pada peta 3 cm dengan skala 1:200.000. Jarak sebenarnya adalah … km", "pilihan": ["5", "8", "6", "7"], "jawaban": 2, "pembahasan": "Jarak sebenarnya = 3 × 200.000 cm = 600.000 cm = 6 km."}, {"id": "S053", "kelas": 5, "topik": "Skala & Perbandingan", "soal": "Jarak dua kota pada peta 9 cm dengan skala 1:50.000. Jarak sebenarnya adalah … km", "pilihan": ["5", "6", "3", "4"], "jawaban": 3, "pembahasan": "Jarak sebenarnya = 9 × 50.000 cm = 450.000 cm = 4 km."}, {"id": "S054", "kelas": 5, "topik": "Skala & Perbandingan", "soal": "Jarak sebenarnya dua tempat 20 km. Pada peta berskala 1:100.000, jaraknya … cm", "pilihan": ["19", "22", "21", "20"], "jawaban": 3, "pembahasan": "20 km = 2.000.000 cm; dibagi 100.000 = 20 cm."}, {"id": "S055", "kelas": 5, "topik": "Skala & Perbandingan", "soal": "Perbandingan kelereng Andi dan Budi adalah 2:5. Jumlah kelereng mereka 56. Kelereng Andi ada …", "pilihan": ["17", "18", "16", "15"], "jawaban": 2, "pembahasan": "Bagian Andi = 2/(2+5) × 56 = 16."}, {"id": "S056", "kelas": 5, "topik": "Data & Rata-rata", "soal": "Nilai ulangan seorang siswa: 11, 10, 9, 7, 8. Rata-rata nilainya adalah …", "pilihan": ["11", "9", "10", "8"], "jawaban": 1, "pembahasan": "Jumlah nilai 45 dibagi 5 = 9."}, {"id": "S057", "kelas": 5, "topik": "Data & Rata-rata", "soal": "Data: 4, 5, 8, 9, 10. Nilai tengah (median) data tersebut adalah …", "pilihan": ["9", "10", "8", "7"], "jawaban": 2, "pembahasan": "Data sudah urut; nilai tengahnya adalah 8."}, {"id": "S058", "kelas": 5, "topik": "Data & Rata-rata", "soal": "Data: 7, 11, 7, 11, 7, 10. Modus data tersebut adalah …", "pilihan": ["6", "7", "8", "9"], "jawaban": 1, "pembahasan": "Nilai yang paling sering muncul adalah 7."}, {"id": "S059", "kelas": 5, "topik": "Data & Rata-rata", "soal": "Tinggi empat tanaman (cm): 85, 61, 71, 63. Rata-rata tinggi tanaman adalah … cm", "pilihan": ["72", "70", "69", "71"], "jawaban": 1, "pembahasan": "Jumlah 280 dibagi 4 = 70 cm."}, {"id": "S060", "kelas": 5, "topik": "Data & Rata-rata", "soal": "Data: 15, 7, 10, 5, 4, 12. Selisih nilai terbesar dan terkecil adalah …", "pilihan": ["12", "10", "13", "11"], "jawaban": 3, "pembahasan": "15 − 4 = 11."}, {"id": "S061", "kelas": 6, "topik": "Bilangan Bulat", "soal": "Hasil dari (-8) + 11 adalah …", "pilihan": ["5", "4", "2", "3"], "jawaban": 3, "pembahasan": "Dari -8 bergerak 11 langkah ke kanan pada garis bilangan: 3."}, {"id": "S062", "kelas": 6, "topik": "Bilangan Bulat", "soal": "Hasil dari -2 − 11 adalah …", "pilihan": ["-13", "-11", "-12", "-14"], "jawaban": 0, "pembahasan": "-2 − 11 = -13."}, {"id": "S063", "kelas": 6, "topik": "Bilangan Bulat", "soal": "Hasil dari (-7) × 9 adalah …", "pilihan": ["-54", "-63", "-70", "-56"], "jawaban": 1, "pembahasan": "Negatif × positif = negatif: -7 × 9 = -63."}, {"id": "S064", "kelas": 6, "topik": "Bilangan Bulat", "soal": "Bilangan terkecil di antara 8, 18, -19, -10 adalah …", "pilihan": ["-18", "-20", "-19", "-17"], "jawaban": 2, "pembahasan": "Pada garis bilangan, yang paling kiri adalah -19."}, {"id": "S065", "kelas": 6, "topik": "Bilangan Bulat", "soal": "Suhu di suatu tempat -19°C lalu turun 6°C. Suhu sekarang …°C", "pilihan": ["-24", "-26", "-25", "-23"], "jawaban": 2, "pembahasan": "-19 + (-6) = -25°C."}, {"id": "S066", "kelas": 6, "topik": "Operasi Campuran", "soal": "Hasil dari 16 + 7 × 8 adalah …", "pilihan": ["72", "128", "88", "16"], "jawaban": 0, "pembahasan": "Perkalian didahulukan: 7 × 8 = 56, lalu 16 + 56 = 72."}, {"id": "S067", "kelas": 6, "topik": "Operasi Campuran", "soal": "Hasil dari 16 + 6 × 9 adalah …", "pilihan": ["124", "86", "70", "16"], "jawaban": 2, "pembahasan": "Perkalian didahulukan: 6 × 9 = 54, lalu 16 + 54 = 70."}, {"id": "S068", "kelas": 6, "topik": "Operasi Campuran", "soal": "Hasil dari 53 − 3 × 8 adalah …", "pilihan": ["29", "53", "5", "39"], "jawaban": 0, "pembahasan": "Perkalian didahulukan: 3 × 8 = 24, lalu 53 − 24 = 29."}, {"id": "S069", "kelas": 6, "topik": "Operasi Campuran", "soal": "Hasil dari (8 + 5) × 5 adalah …", "pilihan": ["70", "25", "105", "65"], "jawaban": 3, "pembahasan": "Dalam kurung didahulukan: 8 + 5 = 13, lalu × 5 = 65."}, {"id": "S070", "kelas": 6, "topik": "Operasi Campuran", "soal": "Hasil dari 50 : 5 + 20 adalah …", "pilihan": ["20", "40", "30", "31"], "jawaban": 2, "pembahasan": "Pembagian didahulukan: 50 : 5 = 10, lalu + 20 = 30."}, {"id": "S071", "kelas": 6, "topik": "Persen", "soal": "25% dari 120 adalah …", "pilihan": ["25", "35", "40", "30"], "jawaban": 3, "pembahasan": "25/100 × 120 = 30."}, {"id": "S072", "kelas": 6, "topik": "Persen", "soal": "50% dari 240 adalah …", "pilihan": ["130", "115", "125", "120"], "jawaban": 3, "pembahasan": "50/100 × 240 = 120."}, {"id": "S073", "kelas": 6, "topik": "Persen", "soal": "20% dari 300 adalah …", "pilihan": ["55", "70", "65", "60"], "jawaban": 3, "pembahasan": "20/100 × 300 = 60."}, {"id": "S074", "kelas": 6, "topik": "Persen", "soal": "Sebuah tas seharga Rp80.000 mendapat diskon 20%. Harga yang harus dibayar adalah …", "pilihan": ["64.000", "59.000", "74.000", "69.000"], "jawaban": 0, "pembahasan": "Diskon = 20% × Rp80.000 = Rp16.000; dibayar Rp80.000 − Rp16.000 = Rp64.000."}, {"id": "S075", "kelas": 6, "topik": "Persen", "soal": "Dari 80 siswa, 40 siswa menyukai matematika. Persentase siswa yang menyukai matematika adalah …%", "pilihan": ["60", "45", "55", "50"], "jawaban": 3, "pembahasan": "40/80 × 100% = 50%."}, {"id": "S076", "kelas": 6, "topik": "Lingkaran", "soal": "Keliling lingkaran dengan jari-jari 7 cm adalah … cm", "pilihan": ["54", "44", "46", "42"], "jawaban": 1, "pembahasan": "Keliling = 2 × π × r = 2 × 22/7 × 7 = 44 cm."}, {"id": "S077", "kelas": 6, "topik": "Lingkaran", "soal": "Keliling lingkaran dengan jari-jari 14 cm adalah … cm", "pilihan": ["88", "86", "98", "90"], "jawaban": 0, "pembahasan": "Keliling = 2 × π × r = 2 × 22/7 × 14 = 88 cm."}, {"id": "S078", "kelas": 6, "topik": "Lingkaran", "soal": "Keliling lingkaran dengan jari-jari 10 cm adalah … cm", "pilihan": ["60,8", "72,8", "62,8", "64,8"], "jawaban": 2, "pembahasan": "Keliling = 2 × π × r = 2 × 3,14 × 10 = 62,8 cm."}, {"id": "S079", "kelas": 6, "topik": "Lingkaran", "soal": "Luas lingkaran dengan jari-jari 7 cm adalah … cm²", "pilihan": ["144", "156", "154", "164"], "jawaban": 2, "pembahasan": "Luas = π × r² = 22/7 × 7² = 154 cm²."}, {"id": "S080", "kelas": 6, "topik": "Lingkaran", "soal": "Luas lingkaran dengan jari-jari 10 cm adalah … cm²", "pilihan": ["304", "316", "324", "314"], "jawaban": 3, "pembahasan": "Luas = π × r² = 3,14 × 10² = 314 cm²."}, {"id": "S081", "kelas": 6, "topik": "Rasio", "soal": "Rasio 6:9 dalam bentuk paling sederhana adalah …", "pilihan": ["2:3", "2:4", "3:2", "3:3"], "jawaban": 0, "pembahasan": "Keduanya dibagi 3: 2:3."}, {"id": "S082", "kelas": 6, "topik": "Rasio", "soal": "Rasio 10:15 dalam bentuk paling sederhana adalah …", "pilihan": ["2:4", "3:2", "3:3", "2:3"], "jawaban": 3, "pembahasan": "Keduanya dibagi 5: 2:3."}, {"id": "S083", "kelas": 6, "topik": "Rasio", "soal": "Perbandingan uang Rina dan Sari adalah 3:7. Jumlah uang mereka Rp80.000. Uang Sari adalah … ribu rupiah", "pilihan": ["57", "58", "56", "55"], "jawaban": 2, "pembahasan": "Bagian Sari = 7/(3+7) × 80 ribu = 56 ribu rupiah."}, {"id": "S084", "kelas": 6, "topik": "Rasio", "soal": "Perbandingan siswa laki-laki dan perempuan 4:5. Jika siswa laki-laki ada 24, siswa perempuan ada …", "pilihan": ["31", "29", "32", "30"], "jawaban": 3, "pembahasan": "Pengalinya 6, jadi perempuan = 5 × 6 = 30."}, {"id": "S085", "kelas": 6, "topik": "Rasio", "soal": "Perbandingan kelereng Dodi dan Eko 5:3. Jika kelereng Dodi 25, selisih kelereng mereka adalah …", "pilihan": ["12", "11", "10", "9"], "jawaban": 2, "pembahasan": "Kelereng Eko = 3 × 5 = 15; selisih = 25 − 15 = 10."}, {"id": "S086", "kelas": 6, "topik": "Rata-rata & Data", "soal": "Nilai UAS seorang siswa: 92, 82, 91, 74, 76. Rata-rata nilainya adalah …", "pilihan": ["82", "84", "85", "83"], "jawaban": 3, "pembahasan": "Jumlah 415 dibagi 5 = 83."}, {"id": "S087", "kelas": 6, "topik": "Rata-rata & Data", "soal": "Data nilai: 54, 65, 67, 88, 89, 93, 95. Median data tersebut adalah …", "pilihan": ["87", "88", "90", "89"], "jawaban": 1, "pembahasan": "Data urut 7 nilai; nilai tengahnya 88."}, {"id": "S088", "kelas": 6, "topik": "Rata-rata & Data", "soal": "Data nilai: 69, 52, 69, 81, 69, 67, 69. Modus data tersebut adalah …", "pilihan": ["70", "69", "68", "71"], "jawaban": 1, "pembahasan": "Nilai yang paling sering muncul adalah 69."}, {"id": "S089", "kelas": 6, "topik": "Rata-rata & Data", "soal": "Rata-rata nilai 4 siswa adalah 75. Jika seorang siswa lagi bernilai 98 bergabung, rata-rata sekarang adalah …", "pilihan": ["79,6", "81,6", "80,6", "78,6"], "jawaban": 0, "pembahasan": "Jumlah awal 75 × 4 = 300; ditambah 98 = 398; dibagi 5 = 79,6."}, {"id": "S090", "kelas": 6, "topik": "Rata-rata & Data", "soal": "Data: 16, 8, 6, 9, 12, 5. Rentang data tersebut adalah …", "pilihan": ["12", "10", "13", "11"], "jawaban": 3, "pembahasan": "Rentang = nilai terbesar − terkecil = 16 − 5 = 11."}];
+const TOPIK = {"4": ["Bilangan Cacah", "Perkalian & Pembagian", "Pecahan", "Keliling & Luas Bangun Datar", "Pengukuran", "Diagram & Data"], "5": ["Operasi Pecahan", "Desimal", "KPK & FPB", "Volume Bangun Ruang", "Skala & Perbandingan", "Data & Rata-rata"], "6": ["Bilangan Bulat", "Operasi Campuran", "Persen", "Lingkaran", "Rasio", "Rata-rata & Data"]};
+const HASH_KODE = ["088cb93d36281ac51c20c9ff935091eff4323792df246d7fb211a558e6842a43", "05e493e42cad882f909de1be8892273dc030dd75135fcdb0624e19dc9d344eb2", "de4edf85e725cb40802d97b0aef23117981b0bc4828a77b1cc900e736076f151", "bdb596a8ac5bfa7348f4181064395e0af3704dee6e463b7476dc749bf43c120a", "fba59f1939677de917187ad015198e2f454f48ec6f5139ce6cba63fad6854b13", "d80dd8bcd362735a577830eeabb1d5f0b4eb26aca8ccbffce9580de392b73a07", "bd85c99e2b11992e08dfec8eb3eb682d455e010c3c1a95957de0a79aecaa6ea0", "24b04e231bcefa8c0acf4dd1077ac8b3ef61b59f378fcd9478e0f08312d57659", "41fb59c7ef9b86baf2b6da59885f9e9ebc5f8edad99fc4309fb56e5af26597e5", "c5e69f5461a30e5d8f10331109d04b85559be90e22a506f5ef12a35ee2238859", "27103d61b47f1841f50d1fa68cec27509c463b03e0f73299c5f4796cb6d19928", "885c57eef2554f071019d51936f4700cf47a8ae06ee7cca58504f6bde76c6819", "3061cfc8b3893ab46f083d16ee9c9a419f66bca96d51c5a98f4860ec080d3148", "3d1d13b87af0ceb4be044db1ccdb0a74685fa9352b9da506948c1e74c6346e4d", "fa0e8f8989f1d2b2a0a92a1f0cd6ab9acf4ea3c83de7cf783326f747dc47367d", "796664237c8cf29c679348c54550630bbf48623d6ab558b75c75f07eea97a16a", "203a5bfa20ecd8aa03ab813da3feecf372d09dac27f991ecb8a77a80b15d4ae3", "8b8489153538cb24b40ba5a0807414f47d2458e053c879878107537dd0e5a725", "ff31ca6f73db3632e89da6908dcd53b9518f1ed72ab9d13b114182cecbd757c0", "0778a3fd2e68602cfc1bae670c13778b575e0e82dc19723fc26823fd6c8457aa"];
+const KUNCI_SIMPAN = "math-asik-sd-v1";
+
+let simpan = { terbuka:false, kelas:4, progres:{} };
+try {
+  const mentah = localStorage.getItem(KUNCI_SIMPAN);
+  if (mentah) simpan = Object.assign(simpan, JSON.parse(mentah));
+} catch (e) {}
+function simpanData(){ try { localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(simpan)); } catch(e){} }
+
+const $ = id => document.getElementById(id);
+const HURUF = ["A","B","C","D"];
+
+function topikId(kelas, nama){ return kelas + "|" + nama; }
+function soalTopik(kelas, nama){ return SOAL.filter(s => s.kelas === kelas && s.topik === nama); }
+function acak(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function persenTopik(kelas, nama){
+  const p = simpan.progres[topikId(kelas, nama)];
+  if (!p || !p.total) return null;
+  return Math.round(100 * p.benar / p.total);
+}
+function kelasBar(p){ return p >= 80 ? "bagus" : (p < 60 ? "rendah" : ""); }
+function labelSkor(p){ return p >= 80 ? "Bagus" : (p >= 60 ? "Cukup" : "Perlu latihan"); }
+
+function tampil(id){
+  ["layarBeranda","layarKuis","layarHasil"].forEach(x => $(x).classList.toggle("tersembunyi", x !== id));
+  window.scrollTo(0, 0);
+}
+
+function renderBeranda(){
+  const kelas = simpan.kelas;
+  document.querySelectorAll(".kelas-btn").forEach(b => {
+    b.classList.toggle("aktif", Number(b.dataset.kelas) === kelas);
+    b.onclick = () => { simpan.kelas = Number(b.dataset.kelas); simpanData(); renderBeranda(); };
+  });
+  $("badgeAkses").textContent = simpan.terbuka ? "Akses Penuh" : "Versi Gratis";
+  $("badgeAkses").classList.toggle("penuh", simpan.terbuka);
+  $("labelKunciUas").textContent = simpan.terbuka ? "" : "🔒";
+  $("kartuBeli").classList.toggle("tersembunyi", simpan.terbuka);
+  $("catatanTopik").textContent = simpan.terbuka
+    ? "Semua topik terbuka. Selamat berlatih!"
+    : "Topik pertama gratis. Topik lain terbuka dengan kode akses.";
+
+  const wadah = $("daftarTopik");
+  wadah.innerHTML = "";
+  TOPIK[String(kelas)].forEach((nama, idx) => {
+    const gratis = idx === 0 || simpan.terbuka;
+    const p = persenTopik(kelas, nama);
+    const btn = document.createElement("button");
+    btn.className = "topik";
+    btn.innerHTML =
+      '<div class="info"><div class="nama">' + nama + '</div>' +
+      '<div class="meta">' + soalTopik(kelas, nama).length + ' soal · dengan pembahasan</div>' +
+      (p === null ? '' : '<div class="bar"><i class="' + kelasBar(p) + '" style="width:' + p + '%"></i></div>') +
+      '</div>' +
+      (p !== null ? '<span class="chip skor">' + p + '%</span>' : '') +
+      (gratis ? '<span class="chip">Mulai</span>' : '<span class="chip kunci">🔒 Kode</span>');
+    btn.onclick = () => {
+      if (!gratis) { $("kartuBeli").scrollIntoView({behavior:"smooth"}); $("inputKode").focus(); return; }
+      mulaiKuis(acak(soalTopik(kelas, nama)), "Latihan: " + nama);
+    };
+    wadah.appendChild(btn);
+  });
+  renderAnalisis();
+}
+
+function renderAnalisis(){
+  const kelas = simpan.kelas;
+  const baris = TOPIK[String(kelas)].map(nama => ({ nama, p: persenTopik(kelas, nama) }))
+    .filter(x => x.p !== null);
+  const wadah = $("isiAnalisis");
+  if (!baris.length){
+    wadah.innerHTML = '<p class="note">Belum ada latihan untuk kelas ' + kelas + '. Selesaikan satu topik atau Tryout Mini, lalu analisisnya muncul di sini.</p>';
+    return;
+  }
+  let html = "";
+  baris.forEach(x => {
+    html += '<div class="analisis-baris"><div class="atas"><span>' + x.nama + '</span><span>' + x.p + '% · ' + labelSkor(x.p) + '</span></div>' +
+      '<div class="bar"><i class="' + kelasBar(x.p) + '" style="width:' + x.p + '%"></i></div></div>';
+  });
+  const lemah = baris.slice().sort((a,b) => a.p - b.p)[0];
+  html += '<p class="note">Fokus ulangan berikutnya: <strong>' + lemah.nama + '</strong> (' + lemah.p + '%).</p>';
+  wadah.innerHTML = html;
+}
+
+let kuis = null;
+function mulaiKuis(daftar, judul){
+  if (!daftar.length) return;
+  kuis = { daftar, idx: 0, benar: 0, judul, perTopik: {} };
+  tampil("layarKuis");
+  tampilSoal();
+}
+function tampilSoal(){
+  const s = kuis.daftar[kuis.idx];
+  $("kuisMeta").textContent = kuis.judul + " · Soal " + (kuis.idx + 1) + " dari " + kuis.daftar.length + " · Kelas " + s.kelas + " — " + s.topik;
+  $("kuisProgres").style.width = Math.round(100 * kuis.idx / kuis.daftar.length) + "%";
+  $("kuisSoal").textContent = s.soal;
+  $("kuisBahas").innerHTML = "";
+  $("btnLanjut").classList.add("tersembunyi");
+  $("btnLanjut").textContent = kuis.idx === kuis.daftar.length - 1 ? "Lihat Hasil" : "Soal Berikutnya";
+  const wadah = $("kuisPilihan");
+  wadah.innerHTML = "";
+  s.pilihan.forEach((teks, i) => {
+    const b = document.createElement("button");
+    b.className = "pil";
+    b.innerHTML = '<span class="huruf">' + HURUF[i] + '</span><span></span>';
+    b.querySelector("span:last-child").textContent = teks;
+    b.onclick = () => jawab(i);
+    wadah.appendChild(b);
+  });
+}
+function jawab(i){
+  const s = kuis.daftar[kuis.idx];
+  const benar = i === s.jawaban;
+  if (benar) kuis.benar++;
+  const id = topikId(s.kelas, s.topik);
+  kuis.perTopik[id] = kuis.perTopik[id] || { nama: s.topik, benar: 0, total: 0 };
+  kuis.perTopik[id].total++;
+  if (benar) kuis.perTopik[id].benar++;
+  const prog = simpan.progres[id] || { benar: 0, total: 0 };
+  prog.total++; if (benar) prog.benar++;
+  simpan.progres[id] = prog; simpanData();
+
+  document.querySelectorAll("#kuisPilihan .pil").forEach((b, j) => {
+    b.disabled = true;
+    if (j === s.jawaban) b.classList.add("benar");
+    else if (j === i) b.classList.add("salah");
+  });
+  $("kuisBahas").innerHTML = '<div class="bahas ' + (benar ? "ok" : "no") + '">' +
+    (benar ? "✅ Benar! " : "❌ Belum tepat. Jawaban yang benar: <strong>" + s.pilihan[s.jawaban] + "</strong>. ") +
+    s.pembahasan + "</div>";
+  $("btnLanjut").classList.remove("tersembunyi");
+}
+$("btnLanjut").onclick = () => {
+  kuis.idx++;
+  if (kuis.idx >= kuis.daftar.length) tampilHasil();
+  else tampilSoal();
+};
+$("btnKeluar").onclick = () => { renderBeranda(); tampil("layarBeranda"); };
+$("btnKembali").onclick = () => { renderBeranda(); tampil("layarBeranda"); };
+
+function tampilHasil(){
+  const total = kuis.daftar.length;
+  const skor = Math.round(100 * kuis.benar / total);
+  $("hasilJudul").textContent = kuis.judul + " — Selesai!";
+  $("hasilSkor").textContent = skor;
+  $("hasilPesan").textContent = "Benar " + kuis.benar + " dari " + total + " soal. " +
+    (skor >= 80 ? "Hebat, pertahankan!" : skor >= 60 ? "Bagus, sedikit lagi!" : "Terus berlatih, kamu bisa!");
+  let html = "";
+  Object.values(kuis.perTopik).forEach(t => {
+    const p = Math.round(100 * t.benar / t.total);
+    html += '<div class="analisis-baris"><div class="atas"><span>' + t.nama + '</span><span>' + t.benar + '/' + t.total + ' · ' + p + '%</span></div>' +
+      '<div class="bar"><i class="' + kelasBar(p) + '" style="width:' + p + '%"></i></div></div>';
+  });
+  $("hasilAnalisis").innerHTML = html;
+  tampil("layarHasil");
+}
+
+$("btnTryoutMini").onclick = () => {
+  const kelas = simpan.kelas;
+  const daftar = TOPIK[String(kelas)].map(nama => acak(soalTopik(kelas, nama))[0]);
+  mulaiKuis(acak(daftar), "Tryout Mini Kelas " + kelas);
+};
+$("btnTryoutUas").onclick = () => {
+  if (!simpan.terbuka){ $("kartuBeli").scrollIntoView({behavior:"smooth"}); $("inputKode").focus(); return; }
+  const kelas = simpan.kelas;
+  const daftar = TOPIK[String(kelas)].flatMap(nama => acak(soalTopik(kelas, nama)).slice(0, 2));
+  mulaiKuis(acak(daftar), "Tryout UAS Kelas " + kelas);
+};
+
+async function hashTeks(teks){
+  const data = new TextEncoder().encode(teks.trim().toUpperCase());
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+$("btnKode").onclick = async () => {
+  const kode = $("inputKode").value;
+  if (!kode.trim()){ $("pesanKode").textContent = "Masukkan kode akses dulu ya."; return; }
+  try {
+    const h = await hashTeks(kode);
+    if (HASH_KODE.includes(h)){
+      simpan.terbuka = true; simpanData();
+      $("pesanKode").textContent = "Kode diterima. Semua topik terbuka!";
+      renderBeranda();
+    } else {
+      $("pesanKode").textContent = "Kode tidak cocok. Periksa lagi huruf dan angkanya.";
+    }
+  } catch (e) {
+    $("pesanKode").textContent = "Aktivasi kode memerlukan koneksi aman (https). Buka aplikasi dari tautan resminya.";
+  }
+};
+
+renderBeranda();
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
